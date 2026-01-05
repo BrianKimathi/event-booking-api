@@ -1,0 +1,4 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate  # In prod, we never auto-create tables! We validate schema only.

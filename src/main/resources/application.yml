@@ -1,0 +1,46 @@
+# ------------------------
+# Server Configuration
+# ------------------------
+server:
+  port: 8080       # Port your Spring Boot app will run on
+
+# ------------------------
+# Spring Application Settings
+# ------------------------
+spring:
+  application:
+    name: event-booking  # Name of your application, used in logs and Spring context
+
+  # ------------------------
+  # Database Configuration
+  # ------------------------
+  datasource:
+    url: jdbc:postgresql://localhost:5432/event_booking  # Postgres DB URL
+    username: postgres                                   # Postgres DB user
+    password: postgres                                   # Postgres DB password
+    driver-class-name: org.postgresql.Driver            # JDBC driver
+
+  # ------------------------
+  # JPA / Hibernate Settings
+  # ------------------------
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Schema validation: check that tables match entities
+      # Use 'update' in dev for automatic table creation
+    show-sql: true          # Log SQL statements to console (good for learning/debug)
+    properties:
+      hibernate:
+        format_sql: true    # Pretty print SQL in logs
+
+  # ------------------------
+  # JSON Serialization Settings
+  # ------------------------
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false  # Store dates in ISO format instead of timestamps
+
+  # ------------------------
+  # Active Profile
+  # ------------------------
+  profiles:
+    active: dev   # Default profile to load: dev, prod, test, etc.
