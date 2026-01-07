@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Application
+*.jar
+*.war
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.idea/
+
+# Coverage reports
+target/site/jacoco/
+*.exec

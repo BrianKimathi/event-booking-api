@@ -36,11 +36,60 @@ spring:
   # JSON Serialization Settings
   # ------------------------
   jackson:
-    serialization:
-      write-dates-as-timestamps: false  # Store dates in ISO format instead of timestamps
+    time-zone: UTC
+    default-property-inclusion: non_null
 
   # ------------------------
   # Active Profile
   # ------------------------
   profiles:
     active: dev   # Default profile to load: dev, prod, test, etc.
+
+# ------------------------
+# JWT Configuration
+# ------------------------
+jwt:
+  secret: ${JWT_SECRET:your-256-bit-secret-key-change-this-in-production-min-32-chars}
+  expiration: 86400000  # 24 hours in milliseconds
+
+# ------------------------
+# Email Configuration (AWS SES in production)
+# ------------------------
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  # ------------------------
+  # Flyway Configuration
+  # ------------------------
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+
+# ------------------------
+# Payment Gateway Configuration
+# ------------------------
+payment:
+  stripe:
+    api-key: ${STRIPE_API_KEY:sk_test_your_stripe_key}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_your_webhook_secret}
+
+# ------------------------
+# Application Properties
+# ------------------------
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  email:
+    from: ${EMAIL_FROM:noreply@eventbooking.com}
+  purchase-code:
+    prefix: EVT-
+    length: 10
