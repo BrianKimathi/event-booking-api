@@ -5,16 +5,11 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: none  # Don't let Hibernate create tables - Flyway will
+      ddl-auto: none
     show-sql: false
   flyway:
     enabled: true
     locations: classpath:db/migration
-    baseline-on-migrate: trues
-    validate-on-migrate: false  # Disable validation for tests to allow Flyway to create fresh schema
+    baseline-on-migrate: true
+    validate-on-migrate: false
     clean-disabled: false
-
-logging:
-  level:
-    com.briankimathi.event_booking: INFO
-    org.flywaydb: DEBUG  # Enable Flyway logging to see what's happening
