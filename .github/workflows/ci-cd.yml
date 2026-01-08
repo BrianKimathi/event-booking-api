@@ -122,11 +122,16 @@ jobs:
 
       - name: Deploy to ECS Fargate (DEV)
         run: |
-          aws ecs update-service \
-            --cluster event-booking-dev \
-            --service event-booking-api-dev \
-            --force-new-deployment \
-            --region ${{ env.AWS_REGION }}
+          # Check if cluster exists first
+          if aws ecs describe-clusters --clusters event-booking-dev --region ${{ env.AWS_REGION }} --query 'clusters[0].status' --output text | grep -q ACTIVE; then
+            aws ecs update-service \
+              --cluster event-booking-dev \
+              --service event-booking-api-dev \
+              --force-new-deployment \
+              --region ${{ env.AWS_REGION }}
+          else
+            echo "Cluster event-booking-dev does not exists. Skipping deployment."
+          fi
 
   # Job 4: Deploy to PROD (Manual Approval)
   deploy-prod:
@@ -148,11 +153,14 @@ jobs:
 
       - name: Deploy to ECS Fargate (PROD)
         run: |
-          aws ecs update-service \
-            --cluster event-booking-prod \
-            --service event-booking-api-prod \
-            --force-new-deployment \
-            --region ${{ env.AWS_REGION }}
+          if aws ecs describe-clusters --clusters event-booking-prod --region ${{ env.AWS_REGION }} --query 'clusters[0].status' --output text | grep -q ACTIVE; then
+            aws ecs update-service \
+              --cluster event-booking-prod \
+              --service event-booking-api-prod \
+              --force-new-deployment \
+              --region ${{ env.AWS_REGION }}
+          else
+            echo "Cluster event-booking-prod does not exists. Skipping deployment."
 
       - name: Run smoke tests
         run: |
